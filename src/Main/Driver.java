@@ -28,64 +28,68 @@ public class Driver extends TreeMap<String, Person_Info>{
 		
 		TreeMap<String, Person_Info> cur = new TreeMap<String, Person_Info>();
 		
-		cur.put("Joe Brown7", first);
-		cur.remove("Joe Brown7");
-		cur.put("Luis Yue7", b);
-		cur.put("Big Mike7", first);
-		cur.put("Bobby Wright7", b);
-		cur.put("Louis Vale7", first);
+		AutoGenPeople generator = new AutoGenPeople();
+		generator.create();
+			
 		
-		cur.put("Joe Brown", first);
-		cur.put("Luis Yue", b);
-		cur.put("Big Mike", first);
-		cur.put("Bobby Wright", b);
-		cur.put("Louis Vale", first);
-		
-		cur.put("Joe Brown4", first);
-		cur.put("Luis Yue4", b);
-		cur.put("Big Mike4", first);
-		cur.put("Bobby Wright4", b);
-		cur.put("Louis Vale4", first);
+//		cur.put("Joe Brown7", first);
+//		cur.remove("Joe Brown7");
+//		cur.put("Luis Yue7", b);
+//		cur.put("Big Mike7", first);
+//		cur.put("Bobby Wright7", b);
+//		cur.put("Louis Vale7", first);
+//		
+//		cur.put("Joe Brown", first);
+//		cur.put("Luis Yue", b);
+//		cur.put("Big Mike", first);
+//		cur.put("Bobby Wright", b);
+//		cur.put("Louis Vale", first);
+//		
+//		cur.put("Joe Brown4", first);
+//		cur.put("Luis Yue4", b);
+//		cur.put("Big Mike4", first);
+//		cur.put("Bobby Wright4", b);
+//		cur.put("Louis Vale4", first);
+//
+//		cur.put("Joe Brown1", first);
+//		cur.put("Luis Yue1", b);
+//		cur.put("Big Mike1", first);
+//		cur.put("Bobby Wright1", b);
+//		cur.put("Louis Vale1", first);
+//		
+//		cur.put("Joe Brown6", first);
+//		cur.put("Luis Yue6", b);
+//		cur.put("Big Mike6", first);
+//		cur.put("Bobby Wright6", b);
+//		cur.put("Louis Vale6", first);
+//
+//		
+//		cur.put("Joe Brown2", first);
+//		cur.put("Luis Yue2", b);
+//		cur.put("Big Mike2", first);
+//		cur.put("Bobby Wright2", b);
+//		cur.put("Louis Vale2", first);
+//		
+//		cur.put("Joe Brown3", first);
+//		cur.put("Luis Yue3", b);
+//		cur.put("Big Mike3", first);
+//		cur.put("Bobby Wright3", b);
+//		cur.put("Louis Vale3", first);
+//		
+//		cur.put("Joe Brown8", first);
+//		cur.put("Luis Yue8", b);
+//		cur.put("Big Mike8", first);
+//		cur.put("Bobby Wright8", b);
+//		cur.put("Louis Vale8", first);
+//
+//		cur.put("Joe Brown5", first);
+//		cur.put("Luis Yue5", b);
+//		cur.put("Big Mike5", first);
+//		cur.put("Bobby Wright5", b);
+//		cur.put("Louis Vale5", first);
 
-		cur.put("Joe Brown1", first);
-		cur.put("Luis Yue1", b);
-		cur.put("Big Mike1", first);
-		cur.put("Bobby Wright1", b);
-		cur.put("Louis Vale1", first);
-		
-		cur.put("Joe Brown6", first);
-		cur.put("Luis Yue6", b);
-		cur.put("Big Mike6", first);
-		cur.put("Bobby Wright6", b);
-		cur.put("Louis Vale6", first);
 
-		
-		cur.put("Joe Brown2", first);
-		cur.put("Luis Yue2", b);
-		cur.put("Big Mike2", first);
-		cur.put("Bobby Wright2", b);
-		cur.put("Louis Vale2", first);
-		
-		cur.put("Joe Brown3", first);
-		cur.put("Luis Yue3", b);
-		cur.put("Big Mike3", first);
-		cur.put("Bobby Wright3", b);
-		cur.put("Louis Vale3", first);
-		
-		cur.put("Joe Brown8", first);
-		cur.put("Luis Yue8", b);
-		cur.put("Big Mike8", first);
-		cur.put("Bobby Wright8", b);
-		cur.put("Louis Vale8", first);
-
-		cur.put("Joe Brown5", first);
-		cur.put("Luis Yue5", b);
-		cur.put("Big Mike5", first);
-		cur.put("Bobby Wright5", b);
-		cur.put("Louis Vale5", first);
-
-
-
+/**
 	String in = "yes";
 	while(in.equalsIgnoreCase("yes")) {
 		
@@ -111,7 +115,7 @@ public class Driver extends TreeMap<String, Person_Info>{
 
 			}
 	}
-		
+**/	
 		System.out.println("\n\n");
 		
 		cur.print(null,null);
