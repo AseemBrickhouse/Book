@@ -27,10 +27,10 @@ public class Driver extends TreeMap<String, Person_Info>{
 		
 		TreeMap<String, Person_Info> cur = new TreeMap<String, Person_Info>();
 		
-//		for(int  i =0; i< 200; i++) {
-//			Person_Info add = generator.create();
-//			cur.put(add.getName(), add);
-//		}
+		for(int  i =0; i< 200; i++) {
+			Person_Info add = generator.create();
+			cur.put(add.getName(), add);
+		}
 		
 		
 

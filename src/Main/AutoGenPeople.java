@@ -20,7 +20,7 @@ public class AutoGenPeople {
 		person.setFirst_Name(firstName());
 		person.setLast_Name(lastName());
 		person.setSocial_Number(SocialSec());
-		person.setAddress(address());
+		person.setAddress(getAddress());
 		return person;
 	}
 	
@@ -36,14 +36,13 @@ public class AutoGenPeople {
 			Scanner getAddress = new Scanner(addressList);	
 			
 			while( (getFirst.hasNextLine() || getLast.hasNextLine() || getAddress.hasNextLine() ) && index < max(firstMAX, lastMAX, addressMAX) ) {
-				//System.out.println(index);
 				if(getLast.hasNextLine() && lastMAX > index) {
 					lastNames[index] = getFirst.nextLine();
-					System.out.print(" | " + lastNames[index]);
+				//	System.out.print(" | " + lastNames[index]);
 				}
 				if(getFirst.hasNextLine() && firstMAX > index) {
 					firstNames[index] = getFirst.nextLine();
-					System.out.print(" | " + firstNames[index]);
+				//	System.out.print(" | " + firstNames[index]);
 				}
 				if(getAddress.hasNextLine() && addressMAX > index) {
 					String x = getAddress.nextLine().trim();
@@ -51,9 +50,9 @@ public class AutoGenPeople {
 					x +=" ";
 					for(int i = 0; i < nums; i++ ) { x += Integer.toString((int)(Math.random() * 9));}
 					address[index] = x;
-					System.out.print(" | " + address[index]);
+				//	System.out.print(" | " + address[index]);
 				}
-				System.out.println();
+				//System.out.println();
 				index++;
 			}
 			getFirst.close();
@@ -82,85 +81,19 @@ public class AutoGenPeople {
 	
 	private String lastName() {
 		return lastNames[(int)(Math.random() * lastMAX - 1) ];
-//		String last = "";
-//		int line = 0;
-//		int random= (int)(Math.random() * 50) + 1;
-//		try {
-//			File name = new File("Last.txt");
-//			Scanner toGet = new Scanner(name);		
-//			while(toGet.hasNextLine()) {
-//				if(++line == random) {
-//					last = toGet.nextLine();
-//					break;
-//				}
-//				toGet.nextLine();
-//			}
-//			//System.out.print(" " + last);
-//			toGet.close();
-//			return last;
-//		}catch(FileNotFoundException e) {
-//		      System.out.println("An error occurred.");
-//		      e.printStackTrace();
-//		}
-//		return null;
 	}
 	
 	private String firstName() {
-		String first = "";
-		int line = 0;
-		int random= (int)(Math.random() * 2000) + 1;
-		try {
-			File name = new File("CombinedList.txt");
-			Scanner toGet = new Scanner(name);		
-			while(toGet.hasNextLine()) {
-				if(++line == random) {
-					first = toGet.nextLine();
-					break;
-				}
-				toGet.nextLine();
-			}
-			//System.out.print(first);
-			toGet.close();
-			return first;
-		}catch(FileNotFoundException e) {
-		      System.out.println("An error occurred.");
-		      e.printStackTrace();
-		}
-		return null;
+		return firstNames[(int)(Math.random() * firstMAX -1)];
 	}
 	
 	private String SocialSec() {
 		String number = "";
 		for(int i = 0; i <9 ; i++) { number += Integer.toString((int)(Math.random() * 9)); }
-		//System.out.println("\n" + number);
 		return number;
 	}
 	
 	private String getAddress() {
-		String address = "";
-		int line = 0;
-		int random= (int)(Math.random() * 152) + 1;
-		try {
-			File name = new File("Address.txt");
-			Scanner toGet = new Scanner(name);		
-			while(toGet.hasNextLine()) {
-				if(++line == random) {
-					address = toGet.nextLine();
-					break;
-				}
-				toGet.nextLine();
-			}
-			address = address.trim();
-			int nums = (int)(Math.random() * 6) + 1;
-			address +=" ";
-			for(int i = 0; i < nums; i++ ) { address += Integer.toString((int)(Math.random() * 9));}
-			//System.out.print(address);
-			toGet.close();
-			return address;
-		}catch(FileNotFoundException e) {
-		      System.out.println("An error occurred.");
-		      e.printStackTrace();
-		}
-		return null;
+		return address[(int) (Math.random() * addressMAX)];
 	}
 }
