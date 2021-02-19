@@ -1,6 +1,8 @@
 package Main;
 import java.util.Comparator;
 import java.util.Scanner;
+import java.lang.*;
+
 public class Driver extends TreeMap<String, Person_Info>{
 
 	private Comparator<Integer> first = new Comparator<Integer>() {
@@ -24,10 +26,11 @@ public class Driver extends TreeMap<String, Person_Info>{
 		AutoGenPeople generator = new AutoGenPeople();
 		generator.init();
 		//Scanner input = new Scanner(System.in);
+		long startTime = System.nanoTime();
 		
 		TreeMap<String, Person_Info> cur = new TreeMap<String, Person_Info>();
 		
-		for(int  i =0; i< 200; i++) {
+		for(int  i =0; i< 5000; i++) {
 			Person_Info add = generator.create();
 			cur.put(add.getName(), add);
 		}
@@ -72,6 +75,9 @@ public class Driver extends TreeMap<String, Person_Info>{
 **/
 		cur.print(null,null);
 		
+		long estimatedTime = (System.nanoTime() - startTime);
+		System.out.println("Estimated time (in nanoseconds):  "+ estimatedTime);
+		System.out.println("Estimated time (in seconds):  "+ (double)estimatedTime/1000000000);
 	}
 	
 }

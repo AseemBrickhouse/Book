@@ -30,6 +30,7 @@ public class AutoGenPeople {
 	 */
 	public void init() {
 		int index = 0;
+		//int count = 0;
 		try {
 			File last = new File("Last.txt");
 			File first = new File("CombinedList.txt");
@@ -40,15 +41,15 @@ public class AutoGenPeople {
 			Scanner getAddress = new Scanner(addressList);	
 			
 			while( (getFirst.hasNextLine() || getLast.hasNextLine() || getAddress.hasNextLine() ) && index < max(firstMAX, lastMAX, addressMAX) ) {
-				if(getLast.hasNextLine() && lastMAX > index) {
-					lastNames[index] = getFirst.nextLine();
+				if(getLast.hasNextLine()) {
+					lastNames[index] = getLast.nextLine();
 				//	System.out.print(" | " + lastNames[index]);
 				}
-				if(getFirst.hasNextLine() && firstMAX > index) {
+				if(getFirst.hasNextLine()) {
 					firstNames[index] = getFirst.nextLine();
-				//	System.out.print(" | " + firstNames[index]);
+					//System.out.print(index + " | " + firstNames[index]);
 				}
-				if(getAddress.hasNextLine() && addressMAX > index) {
+				if(getAddress.hasNextLine()) {
 					String x = getAddress.nextLine().trim();
 					int nums = (int)(Math.random() * 6) + 1;
 					x +=" ";
@@ -57,7 +58,10 @@ public class AutoGenPeople {
 				//	System.out.print(" | " + address[index]);
 				}
 				//System.out.println();
+				//System.out.print(" | " + count + " from count ");
+				//System.out.println();
 				index++;
+				//count++;
 			}
 			getFirst.close();
 			getLast.close();
