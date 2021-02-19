@@ -24,6 +24,10 @@ public class AutoGenPeople {
 		return person;
 	}
 	
+	/**
+	 * Initialize the 3 arrays so we can randomly choose from each one to
+	 * generate a person.
+	 */
 	public void init() {
 		int index = 0;
 		try {
@@ -63,36 +67,47 @@ public class AutoGenPeople {
 		      e.printStackTrace();
 		}
 	}
-
+	
+	/**
+	 *  Finds the maximum value given 3 values.
+	 * @param x Value to be compared
+	 * @param y Value to be compared
+	 * @param z Value to be compared
+	 * @return The max of x,y,z
+	 */
 	private int max(int x, int y, int z) {
 		return Math.max(x, Math.max(y, z) );
 	}
 
 	
+	//Generate a random phone number
 	private String phoneNumber() {
 		String number = "";
 		while(number.length() != 12) {
 			if(number.length() == 3 || number.length() == 7) number += "-";
 			number += Integer.toString( (int)(Math.random() * 9) );
 		}
-		//System.out.println(number);
 		return number;
 	}
 	
+	//Pull a random last name from the lastNames array
 	private String lastName() {
 		return lastNames[(int)(Math.random() * lastMAX - 1) ];
 	}
 	
+	//Pull a random first name from the firstNames array
 	private String firstName() {
 		return firstNames[(int)(Math.random() * firstMAX -1)];
 	}
 	
+	//Generate a random SS number
 	private String SocialSec() {
 		String number = "";
 		for(int i = 0; i <9 ; i++) { number += Integer.toString((int)(Math.random() * 9)); }
 		return number;
 	}
 	
+	//Pull a random address from the address array
 	private String getAddress() {
 		return address[(int) (Math.random() * addressMAX)];
 	}
