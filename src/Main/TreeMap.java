@@ -52,6 +52,7 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	public TreeMap(Comparator<K> c) {
 		if(c == null) throw new IllegalArgumentException("Comprator cannot be null.");
 		comparator = c;
+		numPeople = 0;
 	}
 	
 	/**
@@ -97,8 +98,8 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 		if(root == null)return null;
 		if(keyCheck(k) == null) return null;
 		person = getPersonHelp(k,root);
-		if(person == null) { System.out.println(k + " could not be found in database.\n" ); }
-		else {System.out.println(k); }
+		//if(person == null) { System.out.println(k + " could not be found in database.\n" ); }
+		//else {System.out.println(k); }
 		return person;
 	}
 	
@@ -138,12 +139,14 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	public Person_Info put(K k, Person_Info v) {
 		if(k == null) throw new IllegalStateException("Name to add is null.");
 		Person_Info info;
-		Node<K,Person_Info> node = getPerson(k);
-		if(node != null) {
-			info = node.value;
-			node.value = v;
+		Node<K,Person_Info> node = root;
+		if(this.containsKey(k)) {
+			node = getPerson(k);
+			info = node.getValue();
+			node.setValue(v);
+			return info;
 		}else {
-			info = null;
+			info = v;
 			root = toPut(root,k,v,dummy);
 		}
 		return info;
