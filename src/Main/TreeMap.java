@@ -4,9 +4,11 @@ import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Comparator;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 
 
@@ -346,7 +348,7 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 */
 	@Override
 	public boolean equals(Object o) {
-		if((o instanceof Node<?,?>) )return true; //fix
+		if(  !(o instanceof Node<?,?>) )return true; //fix
 		return true;
 	}
 	
@@ -355,6 +357,7 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 		numPeople = 0;
 		root = dummy.next = null;
 	}
+	
 	/**
 	 * Copies all of the mappings from the specified map to this map(optional operation). The effect of this call is equivalent to that
 	 * of calling put(k, v) on this map once for each mapping from key k to value v in the
@@ -366,41 +369,111 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 */
 	@Override
 	public void putAll(Map<? extends K, ? extends Person_Info> toAdd) {
-		
+		EntrySet c = toAdd.entrySet();
 	}
 	
 	/**
-	 * Add all planets from this collection.
+	 * Add all K  from this collection.
 	 * @param coll collection to add planets, must not be null.
 	 */
 	public void addAll(Collection<K> coll) {
 		if(coll == null) throw new NullPointerException("Collection of planets cannot be null.");
-		
-		for( K  p: coll) {} 
 
+		for(Iterator<K> it = coll.iterator(); it.hasNext(); it = (Iterator<K>) it.next()) {
+			K add = it.next();
+			put(add, null);
+		}
 	}
 
 	
-	private class EntrySet extends AbstractSet<Entry<K,V>> {
+	private class iterator implements Iterator<Entry<K,Person_Info>>{
+
+		Node<K,Person_Info> current = null;
+		Node<K,Person_Info> next = null;
+		int myVersion = version;
+		boolean canRemove = false;
+		
+		iterator(){
+			current  = dummy;
+			next = current.next;
+		}
+		
+		private void checkVersion() {
+			if(myVersion != version) throw new ConcurrentModificationException("My Version: " + myVersion + " version: " + version);
+		}
+		
+		@Override
+		public boolean hasNext() {	checkVersion(); return next != null; }
 
 		@Override
-		public Iterator<Entry<K, V>> iterator() {
-			// TODO Auto-generated method stub
-			return null;
+		public Entry<K, Person_Info> next() {
+			if(!hasNext())throw new NoSuchElementException("No element to advance to.");
+			current = current.next;
+			next = next.next;
+			canRemove = true;
+			return current;
+		}
+		
+		public void remove() {
+			if(!canRemove) throw new IllegalStateException("Nothing to remove");
+			checkVersion();
+			canRemove = false;
+			++myVersion; 
+			TreeMap.this.remove(current.key);
+			if(next == null) { current = null;}
+			else {
+				current = dummy;
+				if(current != null) {next = current.next;}
+				else {next = null;}
+			}
+		}
+		
+	}
+	
+	private volatile Set<Entry<K,Person_Info>> entrySet;
+	
+	@Override
+	public Set<Entry<K, Person_Info>> entrySet() {
+		if(entrySet == null) entrySet = new EntrySet();
+		return entrySet;
+	}
+	
+	
+	private class EntrySet extends AbstractSet <Entry<K,Person_Info>>{
+
+		@Override
+		public Iterator<Entry<K, Person_Info>> iterator() {
+			return iterator();
 		}
 
 		@Override
 		public int size() {
-			return TreeMap.this.numPeople;
+			return TreeMap.this.size();
 		}
-		  
-	  }
-
-
-	@Override
-	public Set<Entry<K, Person_Info>> entrySet() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		@Override
+		public boolean contains(Object o) {
+			if(  !(o instanceof Entry) ) return false;
+			Entry obj = Entry.class.cast(o);
+			K key = (K) obj.getKey();
+			return TreeMap.this.containsKey(key);
+		}
+		
+		@Override
+		public boolean remove(Object o) {
+			if (!this.contains(o) ) return false;
+			Entry obj = Entry.class.cast(o);
+			K key = (K) obj.getKey();
+			if( TreeMap.this.containsKey(key)) { TreeMap.this.remove(key);  return true;}
+			return false;
+		}
+		
+		@Override
+		public void clear() {
+			TreeMap.this.clear();
+		}
+		
+		
 	}
 	
 }
