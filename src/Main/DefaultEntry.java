@@ -5,7 +5,7 @@ package Main;
  * A default implementation of entries in a Map
  * @see {@link java.util.Map.Entry}
  */
-public class DefaultEntry<K,V> extends AbstractEntry<K, Person_Info> {
+public class DefaultEntry<K,V> extends AbstractEntry<K, V> {
 
 	protected K key;
 	protected V value;
@@ -18,15 +18,15 @@ public class DefaultEntry<K,V> extends AbstractEntry<K, Person_Info> {
 	public DefaultEntry(K k, V v) { key = k; value = v; }
 
 	@Override
-	public Person_Info getValue() {
-		return (Person_Info) value;
+	public V getValue() {
+		return (V) value;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Person_Info setValue(Person_Info value) {
-		Person_Info old = value;
-		this.value = (V) value;
+	public V setValue(V v) {
+		V old = v;
+		this.value = (V) v;
 		return old;
 	}
 

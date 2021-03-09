@@ -9,24 +9,27 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
+
+import junit.framework.TestCase;
+
 import java.util.NoSuchElementException;
 
 
-public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
+public class TreeMap<K,V> extends AbstractMap<K,V> {
 
-	private static class Node<K,V> extends DefaultEntry<K,Person_Info> {
+	private static class Node<K,V> extends DefaultEntry<K,V> {
 		
-		Node<K,Person_Info> left, right, next;
+		Node<K,V> left, right, next;
 		
-		Node(K k, Person_Info v) {
+		Node(K k, V v) {
 			super(k,v);
 			left = right = next = null;
 		}
 	}
 
 	private Comparator <K> comparator;
-	private Node<K,Person_Info> root;
-	private final Node<K,Person_Info> dummy = new Node<>(null,null);
+	private Node<K,V> root;
+	private final Node<K,V> dummy = new Node<>(null,null);
 	private int numPeople = 0;
 	private int version = 0;
 	
@@ -62,7 +65,7 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 * @param root Where root is the starting point to count nodes
 	 * @return The current amount of nodes
 	 */
-	private int count(Node<K, Person_Info> root) {
+	private int count(Node<K, V> root) {
 		if(root == null) return 0;
 		return count(root.left) + 1 + count(root.right);
 	}
@@ -95,8 +98,8 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 * @param k Where k is the person to look for.
 	 * @return the node that contains the person if found
 	 */
-	public Node<K,Person_Info> getPerson(K k){
-		Node<K, Person_Info> person = null;
+	public Node<K,V> getPerson(K k){
+		Node<K, V> person = null;
 		if(root == null)return null;
 		if(keyCheck(k) == null) return null;
 		person = getPersonHelp(k,root);
@@ -111,8 +114,8 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 * @param v Where v is the node to start at. Usually starts at the root unless specified.
 	 * @return The node containing the person/info.
 	 */
-	private Node<K,Person_Info> getPersonHelp(K k , Node<K, Person_Info> v) {
-		Node<K, Person_Info> info = null;
+	private Node<K,V> getPersonHelp(K k , Node<K, V> v) {
+		Node<K, V> info = null;
 		if(k == null || v == null) return null;
 		String c1 = (String) k;
 		String c2 = (String) v.key;
@@ -138,10 +141,10 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 * @throws IllegalStateException When the person k is null
 	 */
 	@Override
-	public Person_Info put(K k, Person_Info v) {
+	public V put(K k, V v) {
 		if(k == null) throw new IllegalStateException("Name to add is null.");
-		Person_Info info;
-		Node<K,Person_Info> node = root;
+		V info;
+		Node<K,V> node = root;
 		if(this.containsKey(k)) {
 			node = getPerson(k);
 			info = node.getValue();
@@ -163,10 +166,10 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 * @param before The node to link current nodes next to because the map uses threading.  Helps sets the links to the right locations
 	 * @return cur Where current node is the newly added node or changed node. Cannot be null.
 	 */
-	public Node<K, Person_Info> toPut(Node<K, Person_Info> cur, K k, Person_Info v, Node<K, Person_Info> before){
+	public Node<K, V> toPut(Node<K, V> cur, K k, V v, Node<K, V> before){
 		if(cur == null) {
 			++numPeople;
-			cur = new Node<K,Person_Info>(k,v);
+			cur = new Node<K,V>(k,v);
 			cur.next = before.next;
 			before.next = cur;
 			++version;
@@ -192,7 +195,7 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 * @param k2 Where k2 is the end node given a specified node. If no node is specified, k2 will be null and ends at the farthest right node.
 	 */
 	public void print(K k1, K k2) {
-		Node<K, Person_Info> track = null;
+		Node<K, V> track = null;
 		if(k1 == null) { track = dummy.next; }
 		else { track = getPerson(k1);}
 		if(k2 != null && getPerson(k2) == null) return;
@@ -220,10 +223,10 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Person_Info remove(Object key) {
+	public V remove(Object key) {
 		if(key == null) throw new NullPointerException("Key to remove cannot be null.");
 		if(keyCheck(key) == null) return null;
-		Node<K, Person_Info> person = getPerson((K)key);
+		Node<K, V> person = getPerson((K)key);
 		if(root != null && person != null) {
 			doRemove(person, root);
 		}else {
@@ -238,9 +241,9 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 * @param start The node to start from. Usually starts at the root unless specified. 
 	 * @return curNode Where the current node is the node to be removed from the tree. Can extract the key and value from the given node.
 	 */
-	private Node<K, Person_Info> doRemove(Node<K, Person_Info> curNode, Node<K, Person_Info> start) {
+	private Node<K, V> doRemove(Node<K, V> curNode, Node<K, V> start) {
 		
-		Node<K, Person_Info> person = null;
+		Node<K, V> person = null;
 		String c1 = (String) curNode.key;
 		String c2 = (String) start.key;
 		int res = c1.compareTo(c2);
@@ -273,7 +276,7 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 * @param k Where k is the person to look for.
 	 */
 	public void getInfo(K k) {
-		Node<K,Person_Info> info = null;
+		Node<K,V> info = null;
 		info = getPerson(k);
 			if(info != null) System.out.println(  info.getValue() );
 			else throw new NoSuchElementException("The given person " + k + " is not present in the current map.");
@@ -290,13 +293,13 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	}
 	
 	@Override
-	public Person_Info get(Object toGet) { //key
+	public V get(Object toGet) { //key
 		if(toGet == null) return null;
 		if(keyCheck(toGet) == null) return null;
-		Node<K, Person_Info> save;
+		Node<K, V> save;
 		if(this.containsKey(toGet)) {
 			save = getPerson( (K) toGet);
-			return (Person_Info)save.value;
+			return (V)save.value;
 		}
 		return null;
 	}
@@ -313,7 +316,7 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	public boolean containsValue(Object value) {
 		// TODO Auto-generated method stub
 		if(value == null) throw new NullPointerException("Value to find cannot be null");
-		for(Node<K,Person_Info> curNode = dummy.next; curNode != null; curNode = curNode.next) {
+		for(Node<K,V> curNode = dummy.next; curNode != null; curNode = curNode.next) {
 			if(curNode.getValue() == value) return true;
 		}
 		return false;
@@ -332,7 +335,7 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	public boolean containsKey(Object key) {
 		if(key == null) throw new NullPointerException("The given name cannot be null.");
 		//if(keyCheck(key) == null) return false;
-		Node<K,Person_Info> person = getPerson((K)key);
+		Node<K,V> person = getPerson((K)key);
 		if(person == null)return false;
 		return true;
 	}
@@ -358,6 +361,7 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 		root = dummy.next = null;
 	}
 	
+
 	/**
 	 * Copies all of the mappings from the specified map to this map(optional operation). The effect of this call is equivalent to that
 	 * of calling put(k, v) on this map once for each mapping from key k to value v in the
@@ -368,8 +372,12 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	 *  @throws IllegalArgumentException if invalid info pertaining to the current map is trying to be added.
 	 */
 	@Override
-	public void putAll(Map<? extends K, ? extends Person_Info> toAdd) {
-		EntrySet c = toAdd.entrySet();
+	public void putAll(Map<? extends K, ? extends V> toAdd) {
+			Set<?> p = toAdd.entrySet();
+			for(Iterator it = p.iterator(); it.hasNext();){
+				Node<K, V> add = (Node<K, V>) it.next();
+				put(add.key, add.value);
+			}
 	}
 	
 	/**
@@ -386,10 +394,10 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 	}
 
 	
-	private class iterator implements Iterator<Entry<K,Person_Info>>{
+	private class iterator implements Iterator<Entry<K,V>>{
 
-		Node<K,Person_Info> current = null;
-		Node<K,Person_Info> next = null;
+		Node<K,V> current = null;
+		Node<K,V> next = null;
 		int myVersion = version;
 		boolean canRemove = false;
 		
@@ -406,7 +414,7 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 		public boolean hasNext() {	checkVersion(); return next != null; }
 
 		@Override
-		public Entry<K, Person_Info> next() {
+		public Entry<K,V> next() {
 			if(!hasNext())throw new NoSuchElementException("No element to advance to.");
 			current = current.next;
 			next = next.next;
@@ -430,19 +438,19 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 		
 	}
 	
-	private volatile Set<Entry<K,Person_Info>> entrySet;
+	private volatile Set<Entry<K,V>> entrySet;
 	
 	@Override
-	public Set<Entry<K, Person_Info>> entrySet() {
+	public Set<Entry<K,V>> entrySet() {
 		if(entrySet == null) entrySet = new EntrySet();
 		return entrySet;
 	}
 	
 	
-	private class EntrySet extends AbstractSet <Entry<K,Person_Info>>{
+	private class EntrySet extends AbstractSet <Entry<K,V>>{
 
 		@Override
-		public Iterator<Entry<K, Person_Info>> iterator() {
+		public Iterator<Entry<K, V>> iterator() {
 			return iterator();
 		}
 
@@ -473,6 +481,10 @@ public class TreeMap<K,V> extends AbstractMap<K,Person_Info> {
 			TreeMap.this.clear();
 		}
 		
+		
+	}
+	
+	public static class TestSuite extends TestCase{
 		
 	}
 	

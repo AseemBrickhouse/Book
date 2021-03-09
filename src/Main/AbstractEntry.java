@@ -2,7 +2,7 @@ package Main;
 
 import java.util.Map;
 
-public abstract class AbstractEntry<K, V> implements Map.Entry<K,Person_Info> {
+public abstract class AbstractEntry<K, V> implements Map.Entry<K,V> {
 	@Override
 	public boolean equals(Object o) {
 		if (!(o instanceof Map.Entry))
@@ -16,10 +16,10 @@ public abstract class AbstractEntry<K, V> implements Map.Entry<K,Person_Info> {
 		return 25*hash(getKey()) + 1;
 	}
 
-	@Override
-	public String toString() {
-		return this.getKey() + "=" + Person_Info.class.toString();
-	}
+//	@Override
+//	public String toString() {
+//		return this.getKey() + "=" + this.class.toString();
+//	}
 
 	protected static int hash(Object o) {
 		return o == null ? 0 : o.hashCode();

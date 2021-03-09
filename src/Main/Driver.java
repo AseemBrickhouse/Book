@@ -30,7 +30,7 @@ public class Driver extends TreeMap<String, Person_Info>{
 		
 		TreeMap<String, Person_Info> cur = new TreeMap<String, Person_Info>();
 		
-		for(int  i =0; i< 10; i++) {
+		for(int  i =0; i< 1000; i++) {
 			Person_Info add = generator.create();
 			cur.put(add.getName(), add);
 		}
@@ -39,31 +39,31 @@ public class Driver extends TreeMap<String, Person_Info>{
 		cur.print(null,null);
 		
 
-	String in = "yes";
-	while(in.equalsIgnoreCase("yes") ) {
-		
-		System.out.println("Would you like to find a name?");
-			String n = input.nextLine();
-			
-			if(n.equalsIgnoreCase("yes") ) {
-				System.out.println("Enter a name to find");
-					n = input.nextLine();
-					if(cur.getPerson(n) == null) {
-						String in2 = " ";
-							while(in2.equalsIgnoreCase("yes")) {
-									System.out.println("Would you like to try again?");
-										in2 = input.nextLine();
-							}
-								if(in2.equalsIgnoreCase("no") ){
-										break;
-								}
-					
-						}else {
-							cur.getInfo(n);
-						}
-
-			}
-	}
+//	String in = "yes";
+//	while(in.equalsIgnoreCase("yes") ) {
+//		
+//		System.out.println("Would you like to find a name?");
+//			String n = input.nextLine();
+//			
+//			if(n.equalsIgnoreCase("yes") ) {
+//				System.out.println("Enter a name to find");
+//					n = input.nextLine();
+//					if(cur.getPerson(n) == null) {
+//						String in2 = " ";
+//							while(in2.equalsIgnoreCase("yes")) {
+//									System.out.println("Would you like to try again?");
+//										in2 = input.nextLine();
+//							}
+//								if(in2.equalsIgnoreCase("no") ){
+//										break;
+//								}
+//					
+//						}else {
+//							cur.getInfo(n);
+//						}
+//
+//			}
+//	}
 		System.out.println("\n\n");
 /**		
 		cur.print(null,null);
